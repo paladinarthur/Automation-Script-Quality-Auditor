@@ -1,4 +1,11 @@
 """
-Package for future static analysis and anti-pattern detection rules.
-Detectors will be implemented in subsequent build milestones.
+Detectors package for Automation Script Quality Auditor.
+
+Exposes anti-pattern detector modules.
 """
+
+from .ap01_waits import detect_ap01
+
+__all__ = [
+    "detect_ap01",
+]
