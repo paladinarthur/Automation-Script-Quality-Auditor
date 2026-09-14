@@ -1,21 +1,30 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Environments
+# Python virtual environments
 .venv/
 venv/
 ENV/
 env/
 
-# Streamlit
-.streamlit/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Testing & logs
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Testing and coverage caches
 .pytest_cache/
 *.log
 
-# OS generated files
+# Streamlit configuration and caches
+.streamlit/
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Operating system files
 .DS_Store
 Thumbs.db

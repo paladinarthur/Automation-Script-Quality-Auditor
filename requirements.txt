@@ -1,0 +1,8 @@
+# Web application framework
+streamlit
+
+# Automated test runner
+pytest
+
+# Official Google GenAI Python SDK
+google-genai

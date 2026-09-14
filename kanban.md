@@ -10,17 +10,13 @@
 
 | BACKLOG | TODO | IN PROGRESS | TESTING | DONE |
 | :--- | :--- | :--- | :--- | :--- |
-| **[T02]** Define supported frameworks | **[T01]** Document project requirements | *(Empty)* | *(Empty)* | *(Empty)* |
-| **[T03]** Define anti-pattern checklist | | | | |
-| **[T04]** Define scoring system | | | | |
-| **[T05]** Design simple Streamlit UI | | | | |
-| **[T06]** Implement script input | | | | |
-| **[T07]** Implement framework selection | | | | |
-| **[T08]** Implement anti-pattern detection | | | | |
-| **[T09]** Implement line number tracking | | | | |
+| **[T06]** Implement script input | **[T05]** Design simple Streamlit UI | *(Empty)* | *(Empty)* | **[T01]** Document project requirements |
+| **[T07]** Implement framework selection | | | | **[T02]** Define supported frameworks |
+| **[T08]** Implement anti-pattern detection | | | | **[T03]** Define anti-pattern checklist |
+| **[T09]** Implement line number tracking | | | | **[T04]** Define scoring system |
 | **[T10]** Implement score calculation | | | | |
 | **[T11]** Generate issue report | | | | |
-| **[T12]** Generate fix suggestions | | | | |
+| **[T12]** Integrate Gemini for fix suggestions | | | | |
 | **[T13]** Add sample scripts | | | | |
 | **[T14]** Test auditor against sample scripts | | | | |
 | **[T15]** Improve UI based on testing | | | | |
@@ -41,21 +37,13 @@
 ## Detailed Task Cards by Column
 
 ### 📋 TODO
-* **[T01] Document project requirements**
-  * *Area:* Requirements
-  * *Description:* Create comprehensive SRS (`requirements.md`), define project scope, target user, core features, non-functional requirements, and user stories.
+* **[T05] Design simple Streamlit UI**
+  * *Area:* UI | *Target Phase:* Phase 2
+  * *Description:* Wireframe and plan the Streamlit layout (input panels, scorecard, and issue lists).
 
 ---
 
 ### 📦 BACKLOG
-* **[T02] Define supported frameworks**
-  * *Area:* Requirements | *Target Phase:* Phase 2
-* **[T03] Define anti-pattern checklist**
-  * *Area:* Analysis | *Target Phase:* Phase 2
-* **[T04] Define scoring system**
-  * *Area:* Scoring | *Target Phase:* Phase 2
-* **[T05] Design simple Streamlit UI**
-  * *Area:* UI | *Target Phase:* Phase 2
 * **[T06] Implement script input**
   * *Area:* Input | *Target Phase:* Phase 3
 * **[T07] Implement framework selection**
@@ -68,7 +56,7 @@
   * *Area:* Scoring | *Target Phase:* Phase 3
 * **[T11] Generate issue report**
   * *Area:* Reporting | *Target Phase:* Phase 3
-* **[T12] Generate fix suggestions**
+* **[T12] Integrate Gemini for fix suggestions**
   * *Area:* Reporting | *Target Phase:* Phase 3
 * **[T13] Add sample scripts**
   * *Area:* Testing | *Target Phase:* Phase 4
@@ -92,7 +80,22 @@
 ---
 
 ### ✅ DONE
-*(No tasks completed yet)*
+* **[T01] Document project requirements**
+  * *Area:* Requirements
+  * *Artifact:* `requirements.md`
+  * *Description:* Created comprehensive SRS covering objectives, user persona, features, NFRs, scope, and user stories.
+* **[T02] Define supported frameworks**
+  * *Area:* Requirements
+  * *Artifact:* `framework-support.md`
+  * *Description:* Formally defined supported frameworks (Selenium, Playwright, Cypress), supported language bindings, static analysis operational boundaries, and common vs framework-aware rules.
+* **[T03] Define anti-pattern checklist**
+  * *Area:* Analysis
+  * *Artifact:* `anti-pattern-checklist.md`
+  * *Description:* Formally defined fixed v1 checklist of 10 anti-patterns (AP01–AP10), detection heuristics, exclusions, severity, confidence, and cross-cutting rules.
+* **[T04] Define scoring system**
+  * *Area:* Scoring
+  * *Artifact:* `scoring-system.md`
+  * *Description:* Formulated the deterministic v1 scoring model: 0–100 scale, starting score 100, severity-based deductions (-10 High, -4 Medium), -20 per-pattern cap, 4 rating bands, deduplication, and report structure.
 
 ---
 
