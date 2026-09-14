@@ -299,3 +299,18 @@ def test_run_audit_alias():
         language="python",
     )
     assert run_audit(script_input) == []
+
+
+def test_orchestrator_runs_normalization():
+    # Verify that orchestrator passes raw findings through normalize_findings
+    script_content = "import time\ntime.sleep(5)"
+    script_input = ScriptInput(
+        script_content=script_content,
+        framework="selenium",
+        language="python",
+    )
+    findings = audit_script(script_input)
+    # Even if AP01, AP02, or AP10 all match time.sleep(5), normalization deduplicates to AP01 only
+    ap_ids = [f.anti_pattern_id for f in findings]
+    assert ap_ids == ["AP01"]
+

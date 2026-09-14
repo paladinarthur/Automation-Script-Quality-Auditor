@@ -27,6 +27,7 @@ from src.detectors import (
     detect_ap10,
 )
 from src.models import Finding, ScriptInput
+from src.services.normalization_service import normalize_findings
 from src.validation.validator import validate_framework_and_language
 
 logger = logging.getLogger(__name__)
@@ -90,10 +91,10 @@ def audit_script(script_input: ScriptInput) -> list[Finding]:
                 exc_info=True,
             )
 
-    # 3. Sort findings deterministically by line_start, line_end, then anti_pattern_id
-    all_findings.sort(key=lambda f: (f.line_start, f.line_end, f.anti_pattern_id))
+    # 3. Normalize and deduplicate findings (handles exact dupes, AP01 precedence over AP02/AP10, and deterministic sorting)
+    final_findings = normalize_findings(all_findings)
 
-    return all_findings
+    return final_findings
 
 
 # Friendly alias for orchestrator pipeline entrypoint
