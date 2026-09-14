@@ -10,6 +10,7 @@ from .ap03_duplication import detect_ap03
 from .ap04_test_structure import detect_ap04
 from .ap05_abstractions import detect_ap05
 from .ap06_fragile_locators import detect_ap06
+from .ap07_missing_assertions import detect_ap07
 
 __all__ = [
     "detect_ap01",
@@ -18,4 +19,5 @@ __all__ = [
     "detect_ap04",
     "detect_ap05",
     "detect_ap06",
+    "detect_ap07",
 ]
