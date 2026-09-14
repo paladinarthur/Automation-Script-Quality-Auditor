@@ -13,6 +13,7 @@ from .ap06_fragile_locators import detect_ap06
 from .ap07_missing_assertions import detect_ap07
 from .ap08_implementation_details import detect_ap08
 from .ap09_hardcoded_secrets import detect_ap09
+from .ap10_flaky_patterns import detect_ap10
 
 __all__ = [
     "detect_ap01",
@@ -24,4 +25,5 @@ __all__ = [
     "detect_ap07",
     "detect_ap08",
     "detect_ap09",
+    "detect_ap10",
 ]
