@@ -22,7 +22,9 @@ import re
 from dataclasses import replace
 from typing import Any
 
+from dotenv import load_dotenv
 from src.models.finding import Finding
+
 
 logger = logging.getLogger(__name__)
 
@@ -124,7 +126,8 @@ class GeminiService:
 
     def __init__(self, api_key: str | None = None) -> None:
         """Initializes GeminiService with API key from parameter or GEMINI_API_KEY env var."""
-        self.api_key = api_key or os.getenv("GEMINI_API_KEY")
+        load_dotenv()
+        self.api_key = api_key if api_key is not None else os.getenv("GEMINI_API_KEY")
         self._client: Any = None
 
         if self.api_key:
@@ -138,6 +141,7 @@ class GeminiService:
     def is_available(self) -> bool:
         """Returns True if Gemini API key is present and client initialized."""
         return bool(self.api_key and self._client is not None)
+
 
     def enrich_finding(
         self,
@@ -175,9 +179,10 @@ class GeminiService:
             from google.genai import types
 
             response = self._client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt,
                 config=types.GenerateContentConfig(
+
                     response_mime_type="application/json",
                     response_schema={
                         "type": "OBJECT",

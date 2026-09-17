@@ -6,3 +6,6 @@ pytest
 
 # Official Google GenAI Python SDK
 google-genai
+
+# Environment variable loader
+python-dotenv

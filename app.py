@@ -12,8 +12,12 @@ Deliberate Architecture Constraints:
 """
 
 import streamlit as st
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from src.models.enums import Framework, Language, Severity
+
 from src.models.input import ScriptInput
 from src.services.audit_service import audit_script
 from src.services.gemini_service import GeminiService, enrich_findings

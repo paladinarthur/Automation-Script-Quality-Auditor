@@ -137,9 +137,11 @@ def test_ap09_secret_redaction_before_dispatch():
 # 9. Missing API key does not crash the service.
 def test_missing_api_key_returns_unmodified_finding(monkeypatch):
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.setattr("src.services.gemini_service.load_dotenv", lambda: None)
     service = GeminiService(api_key=None)
 
     assert not service.is_available()
+
 
     finding = make_finding()
     enriched = service.enrich_finding(finding, "playwright", "python")
@@ -226,8 +228,9 @@ def test_empty_response_leaves_finding_intact():
 def test_gemini_cannot_add_findings_or_alter_scorecard():
     # enrich_findings only enriches existing findings list items
     findings = [make_finding()]
-    service = GeminiService(api_key=None)  # unavailable
+    service = GeminiService(api_key="")  # unavailable
     result = enrich_findings(findings, "playwright", "python", gemini_service=service)
+
 
     assert len(result) == 1
     assert result[0] == findings[0]
@@ -308,3 +311,15 @@ def test_redact_finding_context_preserves_already_redacted():
     assert redacted_snip == 'api_key = "[REDACTED]"'
     assert redacted_re == "Hardcoded secret detected"
 
+
+def test_dotenv_loading_integration(tmp_path, monkeypatch):
+    """Verify that GeminiService invokes load_dotenv() to support .env file loading."""
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    with patch("src.services.gemini_service.load_dotenv") as mock_load:
+        def mock_load_impl():
+            monkeypatch.setenv("GEMINI_API_KEY", "synthetic-key-from-dotenv")
+        mock_load.side_effect = mock_load_impl
+
+        service = GeminiService()
+        mock_load.assert_called()
+        assert service.api_key == "synthetic-key-from-dotenv"
