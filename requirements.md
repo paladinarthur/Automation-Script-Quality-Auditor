@@ -68,21 +68,22 @@ The primary objectives of the application are:
 
 ---
 
-## 5. Initial Anti-Pattern Categories
+## 5. Anti-Pattern Categories
 
-The analysis engine evaluates scripts against seven initial anti-pattern categories:
+| Category | Description |
+| :--- | :--- |
+| **AP01 Hardcoded Waits** | Arbitrary time sleeps pausing execution unconditionally. |
+| **AP02 Magic Numbers / Hardcoded Values** | Unexplained literal values used instead of named constants. |
+| **AP03 Copy-Paste / Duplicated Code** | Repeated sequences of setup, teardown, or selector actions without re-use. |
+| **AP04 Poor Test Structure** | Lack of standardized test hooks, test runners, or block structuring. |
+| **AP05 Missing Abstractions** | UI interaction logic mixed directly with test logic instead of Page Objects/Actions. |
+| **AP06 Fragile Locators** | Brittle locators prone to breaking upon UI restructuring. |
+| **AP07 Missing Assertions** | Test blocks or test scripts performing actions without verification. |
+| **AP08 Testing Implementation Details** | Tests coupled to framework-specific internal state instead of user-visible behaviors. |
+| **AP09 Hardcoded Secrets** | Sensitive data or credentials embedded directly into code. |
+| **AP10 Potentially Flaky Patterns** | Actions vulnerable to transient failures without graceful recovery or explicit waits. |
 
-| Category | Description | Representative Example |
-| :--- | :--- | :--- |
-| **Hardcoded Waits** | Arbitrary time sleeps pausing execution unconditionally. | `time.sleep(5)`, `cy.wait(5000)`, `page.waitForTimeout(5000)` |
-| **Fragile Locators** | Brittle locators prone to breaking upon UI restructuring. | Absolute XPaths (`/html/body/div[1]/...`), index-based DOM paths |
-| **Missing Assertions** | Test blocks or test scripts performing actions without verification. | Scripts with navigation and click steps but no `assert`, `expect()`, or `should()` |
-| **Duplicated Code** | Repeated sequences of setup, teardown, or selector actions without re-use. | Duplicated login sequences or repetitive selector queries |
-| **Hardcoded Test Data** | Sensitive or environment-specific data embedded directly into code. | Inline passwords, raw credentials, or hardcoded environment URLs |
-| **Poor Test Structure** | Lack of standardized test hooks, test runners, or block structuring. | Flat, unstructured scripts lacking setup/teardown encapsulation |
-| **Missing Error Handling** | Actions vulnerable to transient failures without graceful recovery or context. | Unhandled dialogs, missing step failure diagnostics, or blank catches |
-
-*(Note: The exact checklist, syntax regexes, and AST/string rules will be finalized during STLC Phase 2.)*
+*(Note: The exact checklist, syntax regexes, and AST/string rules are detailed in the final checklist documentation.)*
 
 ---
 
@@ -112,7 +113,7 @@ For each flagged violation:
 
 * **NFR-01: Simplicity & Readability** — Codebase architecture must remain lightweight, linear, and straightforward to serve as an educational reference.
 * **NFR-02: Rapid Feedback** — Analysis execution must complete within 2 seconds for typical automation scripts (up to 500 lines of code).
-* **NFR-03: Zero External Infrastructure** — Operates fully offline without databases, cloud services, external APIs, or external daemons.
+* **NFR-03: Minimal External Infrastructure** — Operates fully offline without databases or external daemons. Integration with the Gemini API is optional and strictly for advisory insights.
 * **NFR-04: Portability** — Runs on any standard Python environment using straightforward pip dependencies.
 * **NFR-05: Usability** — Interface must be intuitive, requiring zero user onboarding or documentation reading to perform an audit.
 
@@ -123,7 +124,7 @@ For each flagged violation:
 * **Core Programming Language:** Python (>= 3.9)
 * **User Interface Framework:** Streamlit
 * **Analysis Mechanism:** Python-based rule parsing (regex pattern matching / line-by-line static inspection)
-* **Architecture Philosophy:** Simple → Understandable → Effective. No microservices, no databases, no external AI/LLM dependencies, and no enterprise scaffolding.
+* **Architecture Philosophy:** Simple → Understandable → Effective. No microservices, no databases, and no enterprise scaffolding. An optional Gemini API integration provides advisory AI insights.
 
 ---
 
@@ -133,7 +134,7 @@ For each flagged violation:
 * Single-page Streamlit web application.
 * Script ingestion through copy-pasting or file upload.
 * Framework-specific rule targeting (Selenium, Playwright, Cypress).
-* Detection of the 7 initial anti-pattern categories.
+* Detection of the 10 final anti-pattern categories.
 * Line number tracking and code snippet extraction.
 * Scoring algorithm translating rule compliance into a numerical quality score (0–100).
 * Clean reporting table and suggestion cards in the Streamlit UI.

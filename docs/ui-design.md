@@ -34,10 +34,10 @@ The application is designed as a focused, single-purpose developer utility for s
 3. **UI as Presentation Only:** Streamlit is strictly responsible for rendering controls, capturing user input, and formatting view models. All detection, normalization, scoring, reporting, and Gemini enrichment logic remain inside dedicated domain services.
 4. **Static Analysis Transparency:** Clearly inform the user via non-intrusive UI notices that analysis is 100% static and submitted scripts are never executed or run in browsers.
 5. **Scannable Results:** Present overall quality scores, rating bands, and severity metrics in high-visibility summary cards before detailed finding breakdowns.
-6. **Visual Severity Differentiation:** Distinguish High-severity findings (e.g. red/bold badges) from Medium-severity findings (e.g. orange/yellow badges) using clear typography and icons, not relying exclusively on color.
+6. **Visual Severity Differentiation:** Distinguish High-severity findings from Medium-severity findings using standardized bracketed text labels (e.g. `[HIGH]` and `[MEDIUM]`) rather than loud visual badges or emojis, maintaining a professional developer aesthetic.
 7. **Advisory AI Boundaries:** Present Gemini explanations and suggested fixes as advisory guidance. The UI must never suggest that AI determines rule violations or quality scores.
 8. **Resilient Failure Presentation:** If Gemini enrichment is unavailable (missing API key, rate limit, offline network), the UI gracefully renders deterministic findings, scores, and recommendations with a simple non-blocking notice.
-9. **Deliberately Simple v1 Application:** Eliminate unnecessary UI capabilities (user authentication, historical audit logs, multi-file project tree views, PDF exports, or theme customizers).
+9. **Deliberately Simple v1 Application:** Eliminate unnecessary UI capabilities. Maintain a professional, minimalist visual hierarchy by avoiding decorative emojis, excessive spacing, or complex CSS styling.
 10. **Unified Input Path:** Treat paste and file upload as alternative paths to populate the same script buffer, not separate audit processing pipelines.
 
 ---
@@ -70,13 +70,13 @@ The single-page Streamlit application is organized sequentially in top-to-bottom
 - **Scorecard Breakdown:** Expandable or tabular view detailing the penalty deduction breakdown by anti-pattern ID (e.g., AP01: -10, AP06: -4).
 - **Detailed Findings:** Accordion or card list of confirmed findings ordered by line number:
   - Anti-Pattern ID & Name
-  - Severity badge (High vs Medium) & Confidence level
+  - Severity tag (`[HIGH]` or `[MEDIUM]`) & Confidence level
   - Line reference (e.g., `Line 14` or `Lines 20–25`)
   - Offending code snippet (formatted inside a monospace code block)
   - Detection Reason & AI-assisted Explanation
   - Actionable Suggested Fix (formatted as code)
 - **Recommendations:** Priority-grouped list of actionable recommendations (High priority followed by Medium priority).
-- **Methodology Notes:** Concise explanation of static analysis rules, deduplication, base-100 penalty math, category caps, and Gemini advisory boundaries.
+- **Methodology Notes:** Concise explanation of static analysis rules, deduplication, base-100 penalty math, category caps, and Gemini advisory boundaries, placed inside a collapsible expander at the bottom of the page.
 
 ---
 
@@ -139,11 +139,11 @@ The single-page Streamlit application is organized sequentially in top-to-bottom
 │ │ AP01 — Hardcoded Waits             High          1           -10    │ │
 │ └─────────────────────────────────────────────────────────────────────┘ │
 │                                                                         │
-│ 🚨 Confirmed Anti-Pattern Findings (1)                                  │
+│ Confirmed Anti-Pattern Findings (1)                                     │
 │ ┌─────────────────────────────────────────────────────────────────────┐ │
-│ │ 🔴 AP01 · Hardcoded Waits                       HIGH • Line 4        │ │
+│ │ [HIGH] AP01: Hardcoded Waits                          Lines 4       │ │
 │ │                                                                     │ │
-│ │ Code Snippet:                                                       │ │
+│ │ Code:                                                               │ │
 │ │   time.sleep(5)                                                     │ │
 │ │                                                                     │ │
 │ │ Detection Reason:                                                   │ │
@@ -156,11 +156,11 @@ The single-page Streamlit application is organized sequentially in top-to-bottom
 │ │   expect(page.locator('#submit')).to_be_visible()                   │ │
 │ └─────────────────────────────────────────────────────────────────────┘ │
 │                                                                         │
-│ 💡 Actionable Recommendations                                           │
+│ Actionable Recommendations                                              │
 │ • [AP01 - Hardcoded Waits] Replace time.sleep(5) on line 4 with web-  │
 │   first assertions or explicit element state waiters.                   │
 │                                                                         │
-│ ℹ Methodology & Audit Boundaries                                        │
+│ Methodology & Audit Boundaries (Expander)                               │
 │ • Static Analysis Only • Base Score 100 • High -10 / Medium -4 • Cap -20│
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -309,7 +309,7 @@ Each confirmed finding is rendered inside a structured card or expandable box:
 ```
 
 ### Presentation Rules
-- **Severity Badge:** High severity uses a red indicator (`🔴 HIGH`); Medium severity uses an orange/yellow indicator (`🟡 MEDIUM`).
+- **Severity Badge:** High severity uses `[HIGH]`; Medium severity uses `[MEDIUM]`.
 - **Line Reference:** Displayed prominently in bold (e.g., `Line 14` or `Lines 10–12`).
 - **Code Formatting:** Code snippets and suggested fixes are rendered in syntax-highlighted code blocks (`st.code`).
 - **Clear Attribution:** AI-generated explanations and suggested fixes are explicitly labelled as `(AI Advisory)` to prevent user confusion regarding detection authority.
@@ -328,8 +328,8 @@ Each confirmed finding is rendered inside a structured card or expandable box:
 
 ## 12. Accessibility & Usability
 
-- **Typography & Hierarchy:** Clear heading sizes (`#`, `##`, `###`) to establish visual structure.
-- **Dual Visual Indicators:** Severity uses both color badges and explicit text labels (`HIGH`, `MEDIUM`).
+- **Typography & Hierarchy:** Clear heading sizes (`#`, `##`, `###`) to establish visual structure with minimal styling.
+- **Visual Indicators:** Severity uses explicit text labels (`[HIGH]`, `[MEDIUM]`) to remain accessible and clean without overusing color.
 - **Code Legibility:** All source code snippets use monospace fonts (`st.code`).
 - **Intuitive Controls:** Dropdowns and buttons feature clear, descriptive labels.
 - **Single-Page Flow:** Sequential layout eliminates hidden options or confusing tab navigation.
