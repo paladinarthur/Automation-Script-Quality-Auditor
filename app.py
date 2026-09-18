@@ -64,7 +64,6 @@ def main() -> None:
     # 1. Page Configuration
     st.set_page_config(
         page_title="Automation Script Quality Auditor",
-        page_icon="🔍",
         layout="wide",
     )
 
@@ -100,7 +99,7 @@ def main() -> None:
         )
         selected_lang_enum = LANGUAGE_MAP[selected_lang_label]
 
-    st.write("")
+
 
     # 3. Script Input Section
     st.subheader("Automation Script Input")
@@ -141,24 +140,16 @@ def main() -> None:
 
     # Input Convergence: Upload takes precedence if provided and valid, otherwise pasted text
     active_script = ""
-    active_source = "none"
 
     if uploaded_file is not None and uploaded_file_valid:
         if uploaded_code.strip():
             active_script = uploaded_code
-            active_source = f"Uploaded File ({uploaded_file.name})"
-            st.info(f"📁 Active Input: **{active_source}**")
     elif pasted_code and pasted_code.strip():
         active_script = pasted_code
-        active_source = "Pasted Script Text"
-        st.info(f"📝 Active Input: **{active_source}**")
-
-    # Static Analysis Transparency Notice
-    st.info("ℹ️ Static analysis only — script content is evaluated without execution.")
 
     # 4. Analyze Trigger Button
-    st.write("")
-    analyze_clicked = st.button("🔍 Analyze Script", type="primary", use_container_width=True)
+    analyze_clicked = st.button("Analyze Script", type="primary", use_container_width=True)
+    st.caption("Static analysis only — script content is evaluated without execution.")
 
     if analyze_clicked:
         # Validation checks
@@ -243,10 +234,9 @@ def main() -> None:
         st.caption(
             f"**Categories Detected:** {scorecard.anti_patterns_detected} / 10 anti-pattern categories"
         )
-        st.write("")
 
         # Scorecard Breakdown Section
-        st.subheader("📊 Scorecard & Deductions")
+        st.subheader("Scorecard & Deductions")
         if scorecard.category_breakdown:
             table_data = []
             for ap_id, deduction in scorecard.category_breakdown.items():
@@ -260,26 +250,24 @@ def main() -> None:
         else:
             st.success("No penalty deductions applied. Perfect score!")
 
-        st.write("")
-
         # Confirmed Findings Section
-        st.subheader(f"🚨 Confirmed Anti-Pattern Findings ({scorecard.total_issues})")
+        st.subheader(f"Confirmed Anti-Pattern Findings ({scorecard.total_issues})")
 
         if scorecard.total_issues == 0:
-            st.success("🎉 No checklist anti-patterns detected. Great job!")
+            st.success("No checklist anti-patterns detected. Great job!")
         else:
             for finding in report.findings:
-                sev_badge = "🔴 HIGH" if finding.severity == Severity.HIGH else "🟡 MEDIUM"
+                sev_badge = "[HIGH]" if finding.severity == Severity.HIGH else "[MEDIUM]"
                 expander_title = (
-                    f"{sev_badge} · {finding.anti_pattern_id} — {finding.anti_pattern_name} "
+                    f"{sev_badge} {finding.anti_pattern_id}: {finding.anti_pattern_name} "
                     f"({finding.line_display})"
                 )
 
                 with st.expander(expander_title, expanded=True):
-                    st.markdown(f"**Line Reference:** `{finding.line_display}`")
-                    st.markdown(f"**Severity:** {finding.severity.value} | **Confidence:** {finding.confidence.value}")
+                    st.markdown(f"**Line Reference:** {finding.line_display}")
+                    st.markdown(f"**Severity / Confidence:** {finding.severity.value} / {finding.confidence.value}")
 
-                    st.markdown("**Offending Code Snippet:**")
+                    st.markdown("**Offending Code:**")
                     st.code(
                         finding.code_snippet,
                         language=selected_lang_enum.value,
@@ -288,19 +276,17 @@ def main() -> None:
                     st.markdown(f"**Detection Reason:** {finding.reason}")
 
                     if finding.explanation:
-                        st.markdown(f"**AI Explanation (Advisory):** {finding.explanation}")
+                        st.markdown(f"**AI Explanation:**\n\n{finding.explanation}")
 
                     if finding.suggested_fix:
-                        st.markdown("**AI Suggested Fix (Advisory):**")
+                        st.markdown("**Suggested Fix:**")
                         st.code(
                             finding.suggested_fix,
                             language=selected_lang_enum.value,
                         )
 
-        st.write("")
-
         # Actionable Recommendations Section
-        st.subheader("💡 Actionable Recommendations")
+        st.subheader("Actionable Recommendations")
         recs = report.recommendations
         high_recs = recs.get("high_priority", [])
         med_recs = recs.get("medium_priority", [])
@@ -320,12 +306,10 @@ def main() -> None:
             for note in notes:
                 st.info(note)
 
-        st.write("")
-
         # Methodology Footer
-        st.subheader("ℹ️ Methodology & Audit Boundaries")
-        for method_item in report.methodology:
-            st.markdown(f"- {method_item}")
+        with st.expander("Methodology & Audit Boundaries"):
+            for method_item in report.methodology:
+                st.markdown(f"- {method_item}")
 
 
 if __name__ == "__main__":
