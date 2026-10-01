@@ -85,6 +85,9 @@ def main() -> None:
             help="Choose the target test automation framework.",
         )
         selected_fw_enum = FRAMEWORK_MAP[selected_fw_label]
+    st.caption(
+        "Select the framework and language that match your script."
+    )
 
     with col_lang:
         # Dynamically present only valid languages for the chosen framework
@@ -98,8 +101,6 @@ def main() -> None:
             help="Choose the programming language binding for the selected framework.",
         )
         selected_lang_enum = LANGUAGE_MAP[selected_lang_label]
-
-
 
     # 3. Script Input Section
     st.subheader("Automation Script Input")
